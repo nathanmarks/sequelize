@@ -1085,6 +1085,20 @@ describe(Support.getTestDialectTeaser('Instance'), function() {
       });
     });
 
+    it('manually updates timestamps when passing manualUpdate=true', function() {
+      return this.User.create({ username: 'user' }).then(function(user) {
+        var updatedAt = new Date(Date.now() - 7200000);
+        return user.update({
+          username: 'userman',
+          updatedAt: updatedAt
+        }, {
+          manualUpdate: true
+        }).then(function(user1) {
+          expect(user1.updatedAt).to.equalTime(updatedAt);
+        });
+      });
+    });
+
     describe('when nothing changed', function() {
 
       beforeEach(function () {
